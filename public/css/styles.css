@@ -1,11 +1,15 @@
+@import "dashboard.css";
+
 :root{
     --primary-color: #1F4E79;
     --secondary-color: #2A9D8F;
     --accent-color: #F4A261;
     --highlight-color: #E9C46A;
     --background-color: #FAF7F2;
-    --text-color: #1F2933;
+    --background-2-color: #e3f2ff;
+    --text-color: #1e3a55;
     --light-text-color: #c7daff;
+    --danger-color: #bc2b2b;
 }
 
 *{
@@ -27,28 +31,41 @@ a{
 nav{
     background-color: var(--primary-color);
     display: flex;
-    a{
-        color: var(--background-color);
-        text-decoration: none;
-        display: inline-block;
-        padding: 0.7rem 1rem;
+    justify-content: space-between;
+    .logo{
+        a{    
+            color: var(--background-color);
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 0.7rem 1rem;
+            display: inline-block;
+            line-height: 1.5rem;
+            text-decoration: none;
+        }
     }
-    a.active{
-        background-color: var(--secondary-color);
+    ul{
+        display: flex;
+        list-style: none;
+        a{
+            color: var(--background-color);
+            text-decoration: none;
+            display: inline-block;
+            line-height: 1.5rem;
+            height: 100%;
+            padding: 0.7rem 1rem;
+            vertical-align: middle;
+        }
+        a.active{
+            background-color: var(--secondary-color);
+        }
     }
 }
 
 .container{
+    background-color: var(--background-2-color);
     max-width: 900px;
-    margin: 2rem auto;
-    padding: 3rem 4rem;
-    background-color: var(--primary-color);
-    border-radius: 8px;
-    color: var(--light-text-color);
-    min-height: 400px;
-    a{
-        color: var(--background-color)
-    }
+    margin: 0 auto;
+    padding: 2rem;
 }
 
 form{
@@ -59,6 +76,12 @@ form{
     align-items: flex-start;
     .form-group{
         width: 100%;
+    }
+    .alert{
+        background-color: var(--danger-color);
+        color: var(--background-color);
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
     }
 }
 

@@ -16,6 +16,9 @@
         </div>
         <button type="submit" class="btn btn-primary">Sign Up</button>
         <p>Already have an account? <a href="/login">Log In</a></p>
+        <% if (error) { %>
+            <div class="alert alert-danger"><%= error %></div>
+        <% } %>
     </form>
 </div>
 <%- include("partials/footer") %>
