@@ -4,14 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TripFund</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/phase8.css">
 </head>
 <body>
     <nav>
-        <div class="logo"><a href="/">TripFund</a></div>
+        <div class="logo">
+            <a href="/">TripFund</a>
+            <div class="toggle">
+            </div>
+        </div>
+        
         <ul class="nav-links">
             <% Object.keys(paths).forEach(function(route) { %>
                 <li><a href="<%= paths[route] %>" class="<%= getCurrentPath() === paths[route] ? 'active' : '' %>"><%= route.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') %></a></li>
             <% }); %>
         </ul>
     </nav>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+    var toggle = document.querySelector('nav .toggle');
+    var nav = document.querySelector('nav');
+    if (!toggle || !nav) return;
+    toggle.setAttribute('role','button');
+    toggle.setAttribute('aria-label','Toggle navigation');
+    toggle.addEventListener('click', function(){
+        nav.classList.toggle('open');
+    });
+});
+</script>
+<script src="/js/forms.js" defer></script>

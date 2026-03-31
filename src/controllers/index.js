@@ -1,4 +1,5 @@
-import { createUser, findUserByEmail, verifyUser } from "../models/users.js";
+import { createUser, verifyUser } from "../models/users.js";
+import { getTripsByUserId } from "../models/trips.js";
 
 const indexPage = (req, res) => {
     if(req.session.user) {
@@ -7,23 +8,25 @@ const indexPage = (req, res) => {
     res.render("index");
 }
 
-const homePage = (req, res) => {
-    const activeTrips = req.session.user ? req.session.user.activeTrips : [];
-    res.render("home", { currentUser: req.session.user, activeTrips });
+const homePage = async (req, res) => {
+    const userKey = (req.session.user && req.session.user.username);
+    const userTrips = await getTripsByUserId(userKey);
+    res.render("home", { currentUser: req.session.user, userTrips: userTrips || [] });
 }
 
 const signUpPage = (req, res) => {
-    res.render("signup", { error: null });
+    res.render("signup", { error: null, values: {} });
 }
 
 const signUpHandler = async (req, res) => {
-    const { name, email, password } = req.body;
-    if (await findUserByEmail(email)) {
-        return res.render("signup", { error: "Email already in use" });
+    const { name, email, password, username, first_name, last_name } = req.body;
+    try{
+        const newUser = await createUser({ name, email, password, username, first_name, last_name });
+        req.session.user = newUser;
+        res.redirect("/home");
+    } catch (error) {
+        return res.render("signup", { error: error.message, values: { name, email, username, first_name, last_name } });
     }
-    const newUser = await createUser({ name, email, password });
-    req.session.user = newUser;
-    res.redirect("/home");
 }
 
 const loginPage = (req, res) => {

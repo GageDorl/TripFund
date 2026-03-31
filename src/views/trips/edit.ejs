@@ -1,0 +1,74 @@
+<%- include("../partials/header") %>
+
+<main class="container new-trip-container">
+    <section class="form-card">
+        <header>
+            <h1>Edit Trip</h1>
+            <p class="muted">Update trip details or delete the trip.</p>
+        </header>
+
+        <% if (!trip) { %>
+            <div class="alert">No trip data available.</div>
+        <% } else { %>
+        <form action="/trips/<%= trip.id %>/edit" method="POST" class="trip-form" data-validate>
+            <div class="two-col">
+                <div class="form-group">
+                    <label for="name">Trip Name</label>
+                    <input type="text" id="name" name="name" placeholder="Weekend in Lisbon" required aria-label="Trip name" value="<%= trip.name || '' %>">
+                </div>
+
+                <div class="form-group">
+                    <label for="destination">Destination</label>
+                    <input type="text" id="destination" name="destination" placeholder="Lisbon, Portugal" required aria-label="Destination" value="<%= trip.destination || '' %>">
+                </div>
+            </div>
+
+            <div class="two-col">
+                <div class="form-group">
+                    <label for="startDate">Start Date</label>
+                    <input type="date" id="startDate" name="startDate" required aria-label="Start date" value="<%= trip.startDate ? (new Date(trip.startDate)).toISOString().slice(0,10) : '' %>">
+                </div>
+                <div class="form-group">
+                    <label for="endDate">End Date</label>
+                    <input type="date" id="endDate" name="endDate" required aria-label="End date" value="<%= trip.endDate ? (new Date(trip.endDate)).toISOString().slice(0,10) : '' %>">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="cost">Target Cost (USD)</label>
+                <input type="number" id="cost" name="cost" min="0" step="0.01" placeholder="e.g. 1200.00" required aria-label="Target cost" value="<%= trip.cost != null ? Number(trip.cost).toFixed(2) : '' %>">
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description (optional)</label>
+                <textarea id="description" name="description" rows="4" placeholder="Why are you going? Who will you meet?" aria-label="Description"><%= trip.description || '' %></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="allowDonations" name="allowDonations" <%= trip.allowDonations ? 'checked' : '' %> /> Allow donations for this trip
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label for="fundingGoal">Funding Goal (optional)</label>
+                <input type="number" id="fundingGoal" name="fundingGoal" min="0" step="0.01" placeholder="e.g. 2000.00" aria-label="Funding goal" value="<%= trip.fundingGoal != null ? Number(trip.fundingGoal).toFixed(2) : '' %>">
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <a href="/trips" class="btn btn-secondary">Cancel</a>
+                <form action="/trips/<%= trip.id %>/delete" method="POST" style="display:inline; margin-left:8px;">
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Delete this trip? This cannot be undone.')">Delete Trip</button>
+                </form>
+            </div>
+
+            <% if (error) { %>
+                <div class="alert"><%= error %></div>
+            <% } %>
+        </form>
+        <% } %>
+    </section>
+</main>
+
+<%- include("../partials/footer") %>

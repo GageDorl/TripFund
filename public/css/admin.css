@@ -1,0 +1,56 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+table td, table th {
+    padding: 6px;
+    border: 1px solid #e6eef7;
+    vertical-align: middle;
+    form {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        select{
+            margin: 0;
+        }
+    }
+}
+table td form, table td input {
+    margin: 0;
+}
+
+#add-category-form {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-top: 0.5rem;
+    align-items: center;
+    flex-direction: row;
+    label{
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+}
+
+.card {
+    background: #ffffff;
+    border: 1px solid #e6eef7;
+    padding: 0.6rem 0.8rem;
+    border-radius: 6px;
+    box-shadow: 0 6px 18px rgba(31,78,121,0.04);
+    min-width: 120px;
+}
+
+.alert {
+    background-color: #bc2b2b;
+    color: #fff;
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
+}
+
+@media (max-width: 700px) {
+    #add-category-form { flex-direction: column; align-items: stretch }
+}

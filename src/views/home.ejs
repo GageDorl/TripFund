@@ -1,37 +1,61 @@
 <%- include("partials/header") %>
-<div class="container">
-    <h1>Welcome, <%= currentUser.name %>!</h1>
-    <div class="dashboard">
-        <div class="card">
-            <h3>Your Trips</h3>
-            <p>View and manage your upcoming and past trips.</p>
-            <a href="/trips" class="btn btn-secondary">View Trips</a>
+
+<main class="container home-container">
+    <header class="home-hero">
+        <div>
+            <h1>Welcome back, <%= currentUser.username %>!</h1>
+            <p class="muted">Manage your trips, track funds, and see recent activity at a glance.</p>
         </div>
-        <div class="card">
-            <h3>Funds Saved</h3>
-            <p>Track the funds you've saved for your trips.</p>
-            <a href="/funds" class="btn btn-secondary">View Funds</a>
+        <div>
+            <a href="/trips/new" class="btn btn-primary">Create Trip</a>
+                        <% if (currentUser && (currentUser.role === 'admin' || currentUser.role === 'moderator')) { %>
+                            <a href="/moderation/reports" class="btn btn-secondary" style="margin-left:0.5rem">Moderation</a>
+                        <% } %>
+                        <% if (currentUser && currentUser.role === 'admin') { %>
+                            <a href="/admin" class="btn btn-secondary" style="margin-left:0.5rem">Admin</a>
+                        <% } %>
         </div>
-        <div class="card">
-            <h3>Donations Received</h3>
-            <p>View the donations you've received for your trips.</p>
-            <a href="/donations" class="btn btn-secondary">View Donations</a>
+    </header>
+
+    <section class="stats-grid">
+        <div class="stat-card">
+            <h4>Your Trips</h4>
+            <div class="stat-value"><%= (userTrips && userTrips.length) || 0 %></div>
+            <p class="muted">Upcoming and past trips</p>
         </div>
-    </div>
-    <h2>Active Trips</h2>
-    <div class="active-trips">
-        <% if (activeTrips.length === 0) { %>
-            <p>You have no active trips. <a href="/trips/new">Create a new trip</a> to get started!</p>
+        <div class="stat-card">
+            <h4>Funds Saved</h4>
+            <div class="stat-value">$0.00</div>
+            <p class="muted">Track your goal progress</p>
+        </div>
+        <div class="stat-card">
+            <h4>Donations</h4>
+            <div class="stat-value">$0.00</div>
+            <p class="muted">Total contributions received</p>
+        </div>
+    </section>
+
+    <section class="active-trips">
+        <h2>Active Trips</h2>
+        <% const tripsToShow = userTrips || []; %>
+        <% if (tripsToShow.length === 0) { %>
+            <div class="empty">You have no active trips. <a href="/trips/new">Create a new trip</a> to get started!</div>
         <% } else { %>
-            <ul class="list-group">
-                <% activeTrips.forEach(trip => { %>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <a href="/trips/<%= trip.id %>"><%= trip.name %></a>
-                        <span class="badge badge-primary badge-pill"><%= trip.status %></span>
-                    </li>
+            <div class="trips-row">
+                <% tripsToShow.forEach(trip => { %>
+                    <article class="trip-small">
+                        <div class="trip-info">
+                            <a class="trip-link" href="/trips/<%= trip.id %>"><strong><%= trip.name %></strong></a>
+                            <div class="muted"><%= trip.destination || '—' %> • <%= trip.startDate ? formatDate(trip.startDate) : 'TBD' %></div>
+                        </div>
+                        <div class="trip-actions">
+                            <a class="btn btn-secondary" href="/trips/<%= trip.id %>">View</a>
+                        </div>
+                    </article>
                 <% }) %>
-            </ul>
+            </div>
         <% } %>
-    </div>
-</div>
+    </section>
+</main>
+
 <%- include("partials/footer") %>

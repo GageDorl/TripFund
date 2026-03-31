@@ -1,0 +1,65 @@
+/* Phase 8: responsive tweaks and form UX */
+.two-col { display:flex; gap:0.75rem; }
+.two-col .form-group { flex:1 }
+
+.input-error { outline: 2px solid #f4a261; background: #fff6ee }
+.form-errors { margin-bottom: 0.75rem }
+
+@media (max-width: 700px) {
+  .two-col { flex-direction: column }
+  .trips-grid { display:flex; flex-direction:column; gap:0.75rem }
+}
+
+.trips-grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap:0.75rem }
+
+/* Explore trip card enhancements */
+.card { position: relative; overflow: hidden; display:flex; }
+.card .card-link { position:absolute; inset:0; z-index:1; }
+.trip-small.card { padding: 0; }
+.card .card-body { position:relative; z-index:2; background: #fff; padding: 1rem; border-radius: 8px; box-shadow: 0 8px 20px rgba(31,78,121,0.05); display:flex; flex-direction:column; gap:0.5rem; min-height:160px; flex:1; width:100%; box-sizing:border-box; justify-content:space-between }
+.card-title { margin:0; font-size:1.05rem; color:var(--primary-color) }
+.card-sub { font-size:0.9rem; color:#6b8296 }
+.card-dates { font-size:0.85rem }
+.card-description { font-size:0.9rem; color:#3b556b; margin-top:0.25rem; flex:1 }
+
+.progress-wrap { margin-top:0.5rem }
+.progress { background:#eef6fb; border-radius:999px; height:10px; width:100%; overflow:hidden }
+.progress-bar { background: linear-gradient(90deg, var(--secondary-color), var(--accent-color)); height:100%; width:0; transition: width 420ms ease }
+.progress-meta { font-size:0.85rem; color:#38506b; margin-top:0.35rem }
+
+.card:hover .card-body { transform: translateY(-4px); transition: transform 180ms ease, box-shadow 180ms ease }
+
+@media (max-width: 700px) {
+  .card .card-body { padding:0.75rem }
+}
+
+/* polish global spacing for cards */
+.trips-grid { gap: 1rem }
+.card .card-body .card-title a { color: var(--primary-color); text-decoration:none }
+.card .card-body .card-title a:hover { text-decoration:underline }
+
+/* decorative stripe and ribbon */
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 6px;
+  width: 100%;
+  background: linear-gradient(90deg, rgba(91,44,111,0.9), rgba(255,107,107,0.9));
+  z-index: 0;
+}
+.card::after {
+  content: '';
+  position: absolute;
+  right: -30px;
+  top: -30px;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle at 20% 20%, rgba(255,107,107,0.06), transparent 30%);
+  transform: rotate(22deg);
+  z-index: 0;
+  pointer-events: none;
+}
+.card .card-body { box-shadow: 0 14px 40px rgba(91,44,111,0.06); }
+.card .progress-bar { background: linear-gradient(90deg, rgba(91,44,111,0.95), rgba(255,107,107,0.95)); }

@@ -1,0 +1,43 @@
+<section id="comments" class="comments-section" style="margin-top:1rem">
+  <h3>Comments</h3>
+  <% if (!comments || comments.length === 0) { %>
+    <div class="empty">No comments yet. Be the first to comment.</div>
+  <% } else { %>
+    <div class="comments-list">
+      <% comments.forEach(function(c){ %>
+        <div class="comment-card" style="background:#fff; padding:0.6rem; border-radius:6px; margin-bottom:0.5rem">
+          <div style="display:flex; justify-content:space-between; gap:0.5rem">
+            <div><strong><%= c.userId || 'User' %></strong></div>
+            <div class="muted"><%= new Date(c.createdAt).toLocaleString() %></div>
+          </div>
+          <div style="margin-top:0.4rem"><%= c.body %></div>
+          <% if (currentUser && (currentUser.username === c.userId || currentUser.username === trip.userId)) { %>
+            <div style="margin-top:0.5rem">
+              <form method="post" action="/trips/<%= trip.id %>/comments/<%= c.id %>/delete" onsubmit="return confirm('Delete this comment?')">
+                <button class="btn btn-danger" type="submit">Delete</button>
+              </form>
+            </div>
+          <% } %>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+
+  <% if (currentUser) { %>
+    <form method="post" action="/trips/<%= trip.id %>/comments" style="margin-top:0.75rem">
+      <label>Your comment</label>
+      <textarea name="body" class="form-control" rows="3" required></textarea>
+      <div style="margin-top:0.5rem; display:flex; gap:0.5rem; align-items:center">
+        <button class="btn btn-primary" type="submit">Post Comment</button>
+      </div>
+    </form>
+    <form method="post" action="/reports" style="margin-top:0.5rem">
+      <input type="hidden" name="targetType" value="trip" />
+      <input type="hidden" name="targetId" value="<%= trip.id %>" />
+      <input type="hidden" name="reason" value="inappropriate" />
+      <button class="btn btn-secondary" type="submit">Report Trip</button>
+    </form>
+  <% } else { %>
+    <div class="muted">Log in to post comments.</div>
+  <% } %>
+</section>

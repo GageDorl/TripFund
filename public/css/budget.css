@@ -1,0 +1,9 @@
+/* Page-specific styles for Budget page */
+
+.budget-list { display:flex; flex-direction:column; gap:0.5rem }
+.budget-item { background:#fff; padding:0.6rem; border-radius:6px; box-shadow:0 4px 12px rgba(0,0,0,0.03) }
+
+.budget-table { width:100%; border-collapse: collapse; background: #fff; border-radius:6px; overflow:hidden }
+.budget-table th, .budget-table td { padding:0.6rem 0.8rem; border-bottom:1px solid #f0f4f8 }
+.budget-form .form-control { width:100%; padding:0.5rem; margin-top:0.25rem; }
+

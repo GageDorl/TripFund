@@ -1,0 +1,8 @@
+/* Page-specific styles for Itinerary page */
+
+.itinerary-list { display:flex; flex-direction:column; gap:0.75rem }
+.itinerary-item { background: #fff; padding:0.75rem; border-radius:6px; box-shadow: 0 4px 12px rgba(0,0,0,0.03) }
+
+.itinerary-form .form-control { width:100%; padding:0.5rem; margin-top:0.25rem }
+.itinerary-item .muted { color:#6b8296; font-size:0.9rem }
+

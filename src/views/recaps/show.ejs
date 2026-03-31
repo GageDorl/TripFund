@@ -1,0 +1,25 @@
+<%- include('../partials/header') %>
+
+<main class="container">
+  <% if (error) { %>
+    <p style="color:red"><%= error %></p>
+  <% } else if (recap) { %>
+    <article>
+      <h1><%= recap.title %></h1>
+      <p><strong>Total cost:</strong> $<%= recap.totalCost || '0.00' %></p>
+      <section><%= recap.body %></section>
+      <section>
+        <h3>Lessons learned</h3>
+        <p><%= recap.lessonsLearned %></p>
+      </section>
+      <section>
+        <h3>Recommendation</h3>
+        <p><%= recap.recommendation %></p>
+      </section>
+    </article>
+  <% } else { %>
+    <p>No recap available.</p>
+  <% } %>
+</main>
+
+<%- include('../partials/footer') %>

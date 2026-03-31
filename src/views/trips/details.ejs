@@ -1,5 +1,73 @@
 <%- include("../partials/header") %>
-<div class="container">
-    <h1>Here is where you will see trip details for trip ID: <%= tripId %></h1>
-</div>
+
+<main class="container details-container">
+    <article class="trip-card">
+        <header class="trip-header">
+            <span>
+                <h1 class="trip-title"><%= (trip && trip.name) || 'Trip' %></h1>
+                <div class="trip-sub">by <%= (trip && trip.userId) || 'Organizer' %></div>
+            </span>
+            <div class="trip-actions">
+                <% if (currentUser && trip && currentUser.username === trip.userId) { %>
+                    <a class="btn btn-secondary" href="/trips/<%= trip.id %>/edit">Edit</a>
+                    <form class="inline-form" action="/trips/<%= trip.id %>/delete" method="POST" onsubmit="return confirm('Delete this trip?');">
+                        <button class="btn btn-danger" type="submit">Delete</button>
+                    </form>
+                <% } %>
+            </div>
+        </header>
+
+        <% if (trip) { %>
+        <nav class="trip-nav" style="padding:0.5rem 1.5rem; border-bottom:1px solid #f0f6fb; background:#fbfdff">
+            <a href="/trips/<%= trip.id %>/itinerary" class="btn btn-secondary">Itinerary</a>
+            <a href="/trips/<%= trip.id %>/budget" class="btn btn-secondary">Budget</a>
+            <a href="/trips/<%= trip.id %>/expenses" class="btn btn-secondary">Expenses</a>
+            <% if (trip.recap) { %>
+                <a href="/recaps/<%= trip.recap.id %>" class="btn btn-secondary">Recap</a>
+            <% } %>
+        </nav>
+        <% } %>
+
+        <section class="trip-body">
+            <div class="trip-meta">
+                <p><strong>Destination:</strong> <%= (trip && trip.destination) || '—' %></p>
+                <p><strong>Dates:</strong> <%= (trip && trip.startDate) || '—' %> — <%= (trip && trip.endDate) || '—' %></p>
+                <p><strong>Cost:</strong> $<%= (trip && trip.cost) != null ? trip.cost : '0.00' %></p>
+                <p><strong>Funds Raised:</strong> $<%= (trip && trip.fundsRaised) != null ? trip.fundsRaised : '0.00' %></p>
+            </div>
+
+            <div class="trip-description">
+                <h3>About this trip</h3>
+                <p><%= (trip && trip.description) || 'No description provided.' %></p>
+            </div>
+
+            <% if (trip) { %>
+            <% if (trip.allowDonations) { %>
+            <div class="trip-support">
+                <form class="donation-form" action="/trips/<%= trip.id %>/donate" method="POST">
+                    <label for="amount">Contribute</label>
+                    <input id="amount" name="amount" type="number" step="0.01" min="1" placeholder="Amount (USD)" required />
+                    <button class="btn btn-primary" type="submit">Donate</button>
+                </form>
+            </div>
+            <% } else { %>
+            <div class="trip-support muted">
+                <p>Donations are not enabled for this trip.</p>
+            </div>
+            <% } %>
+            <div class="trip-financials">
+                <h3>Financials</h3>
+                <p><strong>Planned cost:</strong> $<%= trip.cost %></p>
+                <p><strong>Total contributions:</strong> $<%= trip.totalContributions || 0 %></p>
+                <p><strong>Total expenses:</strong> $<%= trip.totalExpenses || 0 %></p>
+                <a href="/trips/<%= trip.id %>/expenses">Manage expenses</a>
+            </div>
+            <% } %>
+        </section>
+
+        <%- include('../partials/comments', { comments: trip.comments, trip: trip }) %>
+
+    </article>
+</main>
+
 <%- include("../partials/footer") %>

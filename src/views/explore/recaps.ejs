@@ -1,0 +1,22 @@
+<%- include('../partials/header') %>
+<main class="container">
+  <header>
+    <h1>Recaps</h1>
+    <p class="muted">Read trip recaps from community members.</p>
+  </header>
+
+  <% if (error) { %>
+    <div class="alert"><%= error %></div>
+  <% } %>
+
+  <section>
+    <% (recaps || []).forEach(function(r){ %>
+      <article class="card" style="margin-bottom:0.75rem">
+        <h3><a href="/recaps/<%= r.id %>"><%= r.title %></a></h3>
+        <div class="muted"><a href="/trips/<%= r.tripId %>"><%= r.tripName %></a> — <%= r.tripDestination %></div>
+        <div class="muted">Posted: <%= r.postedAt %></div>
+      </article>
+    <% }) %>
+  </section>
+</main>
+<%- include('../partials/footer') %>

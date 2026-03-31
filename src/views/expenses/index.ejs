@@ -1,0 +1,57 @@
+<%- include('../partials/header') %>
+<main class="container">
+  <header style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem">
+    <h1>Expenses — <%= trip.name %></h1>
+    <div>
+      <a class="btn btn-secondary" href="/trips/<%= trip.id %>">Back to Trip</a>
+    </div>
+  </header>
+
+  <% if (error) { %>
+    <div class="alert"><%= error %></div>
+  <% } %>
+
+  <section class="expenses-list">
+    <table class="expenses-table">
+      <thead><tr><th>Date</th><th>Amount</th><th>Category</th><th>Description</th><th></th></tr></thead>
+      <tbody>
+        <% (expenses || []).forEach(function(e){ %>
+          <tr>
+            <td><%= e.expenseDate ? formatDate(e.expenseDate) : (e.createdAt ? formatDate(e.createdAt) : '') %></td>
+            <td>$<%= Number(e.amount || 0).toFixed(2) %></td>
+            <td><%= e.categoryName || (e.categoryId || 'Uncategorized') %></td>
+            <td><%= e.description %></td>
+            <td>
+              <% if (currentUser && trip && currentUser.username === trip.userId) { %>
+                <form method="post" action="/trips/<%= trip.id %>/expenses/<%= e.id %>/delete" onsubmit="return confirm('Delete expense?')">
+                  <button type="submit" class="btn btn-link">Delete</button>
+                </form>
+              <% } %>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </section>
+
+  <section style="margin-top:1rem" class="expense-form">
+    <h2>Add expense</h2>
+    <form method="post" action="/trips/<%= trip.id %>/expenses">
+      <label>Category:
+        <select name="categoryId" class="form-control">
+          <option value="">-- select --</option>
+          <% (categories || []).forEach(function(c){ %>
+            <option value="<%= c.id %>"><%= c.name %></option>
+          <% }) %>
+        </select>
+      </label>
+      <label>Amount: <input name="amount" type="number" step="0.01" required class="form-control" /></label>
+      <label>Date: <input name="expenseDate" type="date" class="form-control" /></label>
+      <label>Description: <textarea name="description" class="form-control"></textarea></label>
+      <div style="margin-top:0.5rem">
+        <button type="submit" class="btn btn-primary">Add Expense</button>
+      </div>
+    </form>
+  </section>
+</main>
+<%- include('../partials/footer') %>

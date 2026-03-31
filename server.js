@@ -6,7 +6,7 @@ import router from './src/controllers/routes.js';
 import { getCurrentPath } from './src/middleware/global.js';
 import session from 'express-session';
 import { setCurrentUser } from './src/middleware/auth.js';
-import e from 'express';
+import { init as initDb } from './src/middleware/db.js';
 
 dotenv.config();
 
@@ -35,6 +35,19 @@ app.use(getCurrentPath);
 
 app.use('/', router);
 
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+const start = async () => {
+    try {
+        console.log('Initializing database...');
+        await initDb();
+        console.log('Database initialized');
+
+        app.listen(PORT, () => {
+            console.log(`Server is running on http://localhost:${PORT}`);
+        });
+    } catch (err) {
+        console.error('Failed to start server', err);
+        process.exit(1);
+    }
+};
+
+start();

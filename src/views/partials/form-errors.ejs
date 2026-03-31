@@ -1,0 +1,13 @@
+<% if (error) { %>
+  <div class="alert"><%= error %></div>
+<% } %>
+
+<% if (errors && Array.isArray(errors) && errors.length) { %>
+  <div class="alert">
+    <ul>
+      <% errors.forEach(function(e){ %>
+        <li><%= e %></li>
+      <% }) %>
+    </ul>
+  </div>
+<% } %>

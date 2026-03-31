@@ -1,0 +1,8 @@
+/* Page-specific styles for Expenses page */
+
+.expenses-container { padding: 1rem 0 }
+.expenses-table { width: 100%; border-collapse: collapse }
+.expenses-table th, .expenses-table td { padding: 0.5rem 0.75rem; border-bottom: 1px solid #eee }
+.expenses-empty { padding: 1rem; background: #fff; border-radius: 6px }
+
+.expense-form { margin-top: 1rem; display:flex; flex-direction:column; gap:0.5rem }

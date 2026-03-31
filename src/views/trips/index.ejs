@@ -1,5 +1,52 @@
 <%- include("../partials/header") %>
-<div class="container">
-    <h1>Here is the trip index page</h1>
-</div>
+
+<main class="container">
+    <header class="page-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem">
+        <h1>My Trips</h1>
+        <a class="btn btn-primary" href="/trips/new">New Trip</a>
+    </header>
+
+    <section class="trips-grid">
+        <% if (!trips || trips.length === 0) { %>
+            <div class="empty"><p>No trips found. <a href="/trips/new">Create your first trip</a></p></div>
+        <% } %>
+
+        <% for (let trip of trips) { %>
+            <article class="trip-card trip-tile">
+                <div class="card-media">
+                    <div class="media-placeholder">🏝️</div>
+                </div>
+                <div class="card-content">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start">
+                        <h3 class="trip-name"><a href="/trips/<%= trip.id %>"><%= trip.name %></a></h3>
+                        <div class="card-actions">
+                            <a class="btn btn-secondary" href="/trips/<%= trip.id %>/itinerary">Itinerary</a>
+                            <a class="btn btn-secondary" href="/trips/<%= trip.id %>/budget">Budget</a>
+                        </div>
+                    </div>
+
+                    <div class="trip-meta">
+                        <span class="destination"><%= trip.destination || '—' %></span>
+                        <span class="dates"><%= (trip.startDate || '—') %> — <%= (trip.endDate || '—') %></span>
+                    </div>
+                    <p class="organizer">Organized by <%= trip.userId || 'Organizer' %></p>
+
+                    <div class="progress">
+                        <% const funds = Number(trip.fundsRaised ?? 0); const cost = Number(trip.cost ?? 0); %>
+                        <div class="progress-bar" style="width: <%= cost ? Math.min(100, Math.round((funds * 100) / cost)) : 0 %>%"></div>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="amounts">
+                            <strong>$<%= Number(trip.fundsRaised ?? 0).toFixed(2) %></strong>
+                            <small> of $<%= Number(trip.cost ?? 0).toFixed(2) %></small>
+                        </div>
+                        <a class="btn btn-primary" href="/trips/<%= trip.id %>">View</a>
+                    </div>
+                </div>
+            </article>
+        <% } %>
+    </section>
+</main>
+
 <%- include("../partials/footer") %>

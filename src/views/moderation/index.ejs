@@ -1,0 +1,40 @@
+<%- include('../partials/header') %>
+<main class="container">
+  <h1>Moderation Queue</h1>
+  <% if (!reports || reports.length === 0) { %>
+    <div class="empty">No open reports.</div>
+  <% } else { %>
+    <ul style="list-style:none; padding:0">
+      <% reports.forEach(function(r){ %>
+        <li style="margin-bottom:0.75rem; background:#fff; padding:0.75rem; border-radius:6px">
+          <div style="display:flex; justify-content:space-between; gap:0.5rem">
+            <div>
+              <div><strong>Type:</strong> <%= r.targetType %></div>
+              <div><strong>Reported by:</strong> <%= r.reportedBy %></div>
+              <% if (r.tripName) { %>
+                <div><strong>Trip:</strong> <a href="<%= r.tripLink %>"><%= r.tripName %></a></div>
+              <% } else { %>
+                <div><strong>Target ID:</strong> <%= r.targetId %></div>
+              <% } %>
+              <div class="muted"><strong>Reason:</strong> <%= r.reason %> <%= r.details ? ('— ' + r.details) : '' %></div>
+              <% if (r.commentBody) { %>
+                <div style="margin-top:0.5rem"><em>Comment:</em> <%= r.commentBody %></div>
+              <% } %>
+            </div>
+            <div style="display:flex; gap:0.5rem; align-items:center">
+              <form method="post" action="/moderation/reports/<%= r.id %>/resolve" style="margin:0">
+                <input type="hidden" name="action" value="dismiss" />
+                <button class="btn btn-secondary" type="submit">Dismiss</button>
+              </form>
+              <form method="post" action="/moderation/reports/<%= r.id %>/resolve" style="margin:0">
+                <input type="hidden" name="action" value="delete-target" />
+                <button class="btn btn-danger" type="submit" onclick="return confirm('Delete reported content?')">Delete target</button>
+              </form>
+            </div>
+          </div>
+        </li>
+      <% }) %>
+    </ul>
+  <% } %>
+</main>
+<%- include('../partials/footer') %>
