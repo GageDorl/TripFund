@@ -14,7 +14,7 @@ TripFund is a web application designed to help travelers plan trips collaborativ
 
 The ERD was exported from Supabase and shows all database tables with their relationships:
 
-![Database ERD](./erd.png)
+![Database ERD](./public/images/schema.png)
 
 ### Tables
 - **users**: Authentication and user profile data
