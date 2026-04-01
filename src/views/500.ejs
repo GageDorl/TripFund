@@ -1,0 +1,19 @@
+<%- include("partials/header") %>
+
+<main class="container" style="padding: 3rem 1rem; text-align:center">
+  <h1 style="color: var(--danger-color); margin-bottom:1rem">500 - Internal Server Error</h1>
+  <p style="font-size:1.05rem; color:#555; margin-bottom:1.5rem">Something went wrong on our end. Please try again in a moment.</p>
+
+  <% if (showDetails && details) { %>
+    <details style="background:#f5f5f5; padding:1rem; border-radius:8px; text-align:left; max-width:700px; margin:0 auto 1.5rem auto">
+      <summary style="cursor:pointer; font-weight:600">Show error details (development only)</summary>
+      <pre style="overflow-x:auto; font-size:0.9rem; margin-top:0.5rem"><%= details %></pre>
+    </details>
+  <% } %>
+
+  <div>
+    <a href="/" class="btn btn-primary">Return to Home</a>
+  </div>
+</main>
+
+<%- include("partials/footer") %>

@@ -35,6 +35,35 @@ app.use(getCurrentPath);
 
 app.use('/', router);
 
+// 404 handler for unmatched routes
+app.use((req, res) => {
+  return res.status(404).render('404');
+});
+
+// Global error handler (must have 4 parameters: err, req, res, next)
+app.use((err, req, res, next) => {
+  console.error('Error:', err);
+
+  const status = err.status || 500;
+  const message = NODE_ENV === 'production'
+    ? 'An error occurred. Please try again later.'
+    : (err.message || 'Unexpected server error');
+
+  if (status === 404) {
+    return res.status(404).render('404').catch(() => {
+      res.status(404).send('404 - Page Not Found');
+    });
+  }
+
+  return res.status(500).render('500', {
+    showDetails: NODE_ENV !== 'production',
+    details: message
+  }).catch(() => {
+    // If view rendering fails, send plain text
+    res.status(500).send(`Error 500: ${message}`);
+  });
+});
+
 const start = async () => {
     try {
         console.log('Initializing database...');
